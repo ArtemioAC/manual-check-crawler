@@ -6,20 +6,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
+//import org.springframework.core.io.ResourceLoader;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
-import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
 @RequiredArgsConstructor
 public class SeleniumConfiguration {
-    private static final String CHROME_DRIVER = "chromedriver.exe";
-    private final ResourceLoader resourceLoader;
+//    private static final String CHROME_DRIVER = "chromedriver.exe";
+    private static final long WAIT_TIME = 10;
+//    private final ResourceLoader resourceLoader;
 
     @Bean
     public WebDriver getChromeDriver() throws IOException {
@@ -28,7 +25,7 @@ public class SeleniumConfiguration {
 //        Resource chromeDriver = resourceLoader.getResource("classpath:webdrivers/chromedriver.exe");
 //        System.setProperty("webdriver.chrome.driver", chromeDriver.getFile().getAbsolutePath());
         WebDriver webDriver = new ChromeDriver();
-        webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        webDriver.manage().timeouts().implicitlyWait(WAIT_TIME, TimeUnit.SECONDS);
         return webDriver;
     }
 }
