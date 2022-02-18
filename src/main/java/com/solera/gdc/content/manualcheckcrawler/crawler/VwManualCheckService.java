@@ -1,5 +1,6 @@
 package com.solera.gdc.content.manualcheckcrawler.crawler;
 
+import com.solera.gdc.content.manualcheckcrawler.models.ManualDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
@@ -42,12 +43,16 @@ public class VwManualCheckService {
 
         login();
         acceptDisclaimers();
-
+        log.info("Login successful!");
         goToServiceInformationTab();
 
         //Navigate through year,model drop down menus
         Set<String> validYears = getYears();
-        List<String> carTypeStrings = getCarTypeStrings(validYears);
+        log.info("Found these years: %s".formatted(validYears.toString()));
+
+        validYears.forEach(year -> {
+            Map<String, ManualDTO> modelsForYear = getModelsForYear(year);
+        });
 
         Thread.sleep(SLEEP_TIME);
         logout();
@@ -83,25 +88,33 @@ public class VwManualCheckService {
             String yearString = element.getText();
             if (!yearString.contains("[")) {
                 years.add(removeNewLineFromOption(yearString));
-                log.info("Found this valid year option:%s".formatted(yearString));
+                log.debug("Found this valid year option:%s".formatted(yearString));
             }
         });
         return new TreeSet<>(years);
     }
 
-    //
-    public List<String> getCarTypeStrings(Set<String> validYears) {
+    public Map<String, ManualDTO> getModelsForYear(String year) {
+        List<String> carTypeStrings = getCarTypeStrings(year);
+//        return getCrawledModelsAndPlatforms(carTypeStrings);
+        return null;
+    }
+
+    public List<String> getCarTypeStrings(String validYear) {
         List<String> carTypeStrings = new ArrayList<>();
 
-        validYears.forEach(year -> {
-            log.info("Working with this option: %s".formatted(year));
-            Select yearOption = new Select(webDriver.findElement(By.xpath(YEAR_SELECTION_XPATH)));
-            yearOption.selectByValue(year);
+        log.info("Working with this YEAR option: %s".formatted(validYear));
+        Select yearOption = new Select(webDriver.findElement(By.xpath(YEAR_SELECTION_XPATH)));
+        yearOption.selectByValue(validYear);
 
-            try {
-                Thread.sleep(SLEEP_TIME_LONGER);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        WebElement modelsRootNode = webDriver.findElement(By.xpath(MODEL_SELECTION_XPATH));
+        List<WebElement> modelsDropDown = modelsRootNode.findElements(By.xpath("./child::*"));
+
+        modelsDropDown.forEach(element -> {
+            String carTypeString = element.getText();
+            if (carTypeString.contains("[") && !carTypeString.contains("Model(s)")) {
+                log.info("---Found this valid Model: %s".formatted(carTypeString));
+                carTypeStrings.add(removeNewLineFromOption(carTypeString));
             }
         });
 
