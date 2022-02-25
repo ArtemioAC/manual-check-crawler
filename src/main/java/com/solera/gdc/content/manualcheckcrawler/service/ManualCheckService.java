@@ -43,9 +43,9 @@ public class ManualCheckService {
         validYears.forEach(year -> {
             Map<String, ManualDTO> modelsForYear = getModelsForYear(year);
 
-            log.info("=======================Models map=========================");
+            log.debug("=======================Models map=========================");
             modelsForYear.forEach((key, value) -> log.info("K: %s | V: %s".formatted(key, value.toString())));
-            log.info("================================================");
+            log.debug("================================================");
 
             modelsForYear.forEach((platform, manual) -> {
                 ManualDTO currentManual = modelsForYear.get(platform);
@@ -59,13 +59,20 @@ public class ManualCheckService {
                 }
             });
 
-            log.info("=======================Manuals map=========================");
+            log.debug("=======================Manuals map=========================");
             manuals.forEach((key, value) -> log.info("K: %s | V: %s".formatted(key, value.toString())));
-            log.info("================================================");
+            log.debug("================================================");
 
         });
 
         logout();
+        showCrawledManualInfo(manuals);
+    }
+
+    private void showCrawledManualInfo(Map<String, ManualDTO> manuals) {
+        log.info("=======================Manuals map=========================");
+        manuals.forEach((key, value) -> log.info("Platform: %s | Models: %s".formatted(key, value.toString())));
+        log.info("================================================");
     }
 
     public void login() {
