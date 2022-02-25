@@ -1,12 +1,21 @@
 package com.solera.gdc.content.manualcheckcrawler.models;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.ToString;
 
+import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@ToString
 public class ManualDTO {
-    private String make;
-    private String platform;
+    private final String make;
+    private final String platform;
     private Set<Model> models;
+
+    public ManualDTO(String make, String platform) {
+        this.make = make;
+        this.platform = platform;
+        this.models = new HashSet<>();
+    }
 }

@@ -11,4 +11,7 @@ public class Constants {
 
     public static final long SLEEP_TIME = 500;
     public static final long SLEEP_TIME_LONGER = 2000;
+
+    public static final String VW_MAKE = "VW";
+    public static final String AUDI_MAKE = "Audi";
 }
