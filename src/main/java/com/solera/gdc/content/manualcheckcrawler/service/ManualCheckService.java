@@ -53,8 +53,7 @@ public class ManualCheckService {
                 if (manuals.containsKey(platform)) {
                     ManualDTO targetManual = manuals.get(platform);
                     currentManual.getModels().forEach(it -> targetManual.getModels().add(it));
-                }
-                else {
+                } else {
                     manuals.put(platform, currentManual);
                 }
             });
@@ -69,7 +68,7 @@ public class ManualCheckService {
         showCrawledManualInfo(manuals);
     }
 
-    private void showCrawledManualInfo(Map<String, ManualDTO> manuals) {
+    private void showCrawledManualInfo(final Map<String, ManualDTO> manuals) {
         log.info("=======================Manuals map=========================");
         manuals.forEach((key, value) -> log.info("Platform: %s | Models: %s".formatted(key, value.toString())));
         log.info("================================================");
@@ -110,12 +109,12 @@ public class ManualCheckService {
         return new TreeSet<>(years);
     }
 
-    public Map<String, ManualDTO> getModelsForYear(String year) {
+    public Map<String, ManualDTO> getModelsForYear(final String year) {
         List<String> carTypeStrings = getCarTypeStrings(year);
         return getCrawledModelsAndPlatforms(year, carTypeStrings);
     }
 
-    public List<String> getCarTypeStrings(String validYear) {
+    public List<String> getCarTypeStrings(final String validYear) {
         List<String> carTypeStrings = new ArrayList<>();
 
         log.info("Crawling this YEAR : %s".formatted(validYear));
@@ -136,7 +135,7 @@ public class ManualCheckService {
         return carTypeStrings;
     }
 
-    public Map<String, ManualDTO> getCrawledModelsAndPlatforms(String year, List<String> carTypeStrings) {
+    public Map<String, ManualDTO> getCrawledModelsAndPlatforms(final String year, final List<String> carTypeStrings) {
         Map<String, ManualDTO> manuals = new LinkedHashMap<>();
 
         carTypeStrings.forEach(carTypeString -> {
@@ -158,7 +157,7 @@ public class ManualCheckService {
         return manuals;
     }
 
-    private void addModelsToManual(int year, ManualDTO manual, VwModelGroup dropBoxModelGroup) {
+    private void addModelsToManual(final int year, final ManualDTO manual, final VwModelGroup dropBoxModelGroup) {
         dropBoxModelGroup.getModelNames().forEach(modelName -> {
             manual.getModels().add(
                 new Model(modelName.trim(), String.valueOf(year), dropBoxModelGroup.getPlatform(), make)
@@ -166,7 +165,7 @@ public class ManualCheckService {
         });
     }
 
-    private String removeNewLineFromOption(String option) {
+    private String removeNewLineFromOption(final String option) {
         return option.replace("\n", "").trim();
     }
 }

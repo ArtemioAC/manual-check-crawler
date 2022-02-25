@@ -1,7 +1,6 @@
 package com.solera.gdc.content.manualcheckcrawler.controller;
 
 import com.solera.gdc.content.manualcheckcrawler.crawler.ManualCheckCrawler;
-import com.solera.gdc.content.manualcheckcrawler.service.ManualCheckService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -11,4 +11,5 @@
     <suppress checks="HideUtilityClassConstructor" files="."/>
     <suppress checks="LineLengthCheck" files="."/>
     <suppress checks="AvoidStarImport" files="."/>
+    <suppress checks="HiddenField" files="."/>
 </suppressions>

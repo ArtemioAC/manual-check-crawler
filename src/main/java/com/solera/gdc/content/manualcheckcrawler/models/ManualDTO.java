@@ -13,7 +13,7 @@ public class ManualDTO {
     private final String platform;
     private Set<Model> models;
 
-    public ManualDTO(String make, String platform) {
+    public ManualDTO(final String make, final String platform) {
         this.make = make;
         this.platform = platform;
         this.models = new HashSet<>();
